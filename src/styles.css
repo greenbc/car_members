@@ -5,3 +5,20 @@
 .move-nav a{
     color: white;
 }
+
+input{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: .4vw !important;
+    border-radius: 5px;
+}
+
+.button-styles{
+    width: 40%;
+    border-radius: 6px;
+    background-color: blue;
+    color:white;
+    border: 1px solid white;
+    padding: 10px;
+}

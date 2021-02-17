@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useGetData } from '../../custom-hooks';
 import { Jumbotron, Button, Container, Card, Col, Row} from 'react-bootstrap';
-import toy_car from '../../assets/img/toy_car.png'
+import toy_car from '../../assets/img/toy_car.png';
+import { server_calls } from '../../api';
+
+import { useHistory } from 'react-router-dom';
 
 export const Cars = () => {
+
+    const history:any = useHistory();
+
+    const routeChange = (id?:string, path?:string) => {
+        history.push({
+            pathname: path,
+            state: {car_id: id}
+        })
+    }
 
     let { carData, getData} = useGetData();
     console.log(carData)
 
+    const handleDeleteDrone = (id:any) => {
+        server_calls.delete(id);
+        getData()
+    }
 
     return (
         <Container>
@@ -16,7 +32,7 @@ export const Cars = () => {
                     <Jumbotron>
                     <h1> Hello Car Collectors! </h1>
                     <p>Here are your current collection of cars!</p>
-                    <Button>Create New Car</Button>
+                    <Button onClick = { () => routeChange('','create')}>Create New Car</Button>
                     </Jumbotron>
                 </Col>
             </Row>
@@ -29,9 +45,12 @@ export const Cars = () => {
                                 <Card style={{ width: '18rem'}}>
                                     <Card.Img variant="top" src={toy_car} />
                                     <Card.Body>
-                                        <Card.Title>
-                                            { item.name }
-                                        </Card.Title>
+                                        <Card.Text>
+                                            { item.color }
+                                        </Card.Text>
+                                        <Card.Text>
+                                            { item.make }
+                                        </Card.Text>
                                         <Card.Text>
                                             { item.model }
                                         </Card.Text>
@@ -39,8 +58,8 @@ export const Cars = () => {
                                             { item.price }
                                         </Card.Text>
 
-                                        <Button variant="danger">Delete</Button>
-                                        <Button variant="primary">Update</Button>
+                                        <Button variant="danger" onClick = { () => handleDeleteDrone(item.id)}>Delete</Button>
+                                        <Button variant="primary" onClick = { () => routeChange(item.id,'update')} >Update</Button>
                                     </Card.Body>
                                 </Card>    
                             </div>
